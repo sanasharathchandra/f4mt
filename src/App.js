@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import MoviesList from "./MoviesList.js";
+import GenreFilter from "./GenreFilter.js";
+import data from "./data.js";
 
 function App() {
+  const [filteredGenre, setFilteredGenre] = useState(null);
+
+  const handleGenreChange = (genre) => {
+    setFilteredGenre(genre);
+  };
+
+  const filteredMovies = filteredGenre
+    ? data.filter((movie) => movie.genre === filteredGenre)
+    : data;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <main className="mx-auto max-w-4xl">
+      <header>
+        <h1 className="m-4 text-center text-3xl font-bold">
+          Top 15 Movies of All Time
+        </h1>
       </header>
-    </div>
+      <nav>
+        <GenreFilter onGenreChange={handleGenreChange} />
+      </nav>
+      <section>
+        <MoviesList movies={filteredMovies} />
+      </section>
+    </main>
   );
 }
+
 
 export default App;
